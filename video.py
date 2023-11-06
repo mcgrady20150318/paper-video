@@ -24,7 +24,7 @@ import edge_tts
 from langchain.chat_models import ChatOpenAI
 from nider.core import Font
 from nider.core import Outline
-from nider.models import Content, Header
+from nider.models import Content, Header, Image
 
 girl = "zh-CN-XiaoyiNeural"  
 boy = 'zh-CN-YunxiNeural'
