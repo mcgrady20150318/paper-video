@@ -63,10 +63,10 @@ def get_cover(title):
                     color='#000100',
                     )
     content = Content(header=header)
-    img = Image(content,fullpath=id+'/cover.png')
+    img = Image(content,fullpath='./'+id+'/cover.png')
     img.draw_on_image(path+'cover.jpg')
-    os.rename(id+'/cover.png',id+'/cover.jpg')
-    os.remove(id+'/cover.png')
+    os.rename('./'+id+'/cover.png',id+'/cover.jpg')
+    os.remove('./'+id+'/cover.png')
 
 def generate_readme(id):
     if not os.path.exists('./'+id):
