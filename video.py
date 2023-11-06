@@ -65,7 +65,7 @@ def get_cover(title):
     content = Content(header=header)
     img = Image(content,fullpath='./'+id+'/cover.png')
     img.draw_on_image(path+'cover.jpg')
-    os.rename('./'+id+'/cover.png',id+'/cover.jpg')
+    os.rename('./'+id+'/cover.png','./'+id+'/cover.jpg')
 
 def generate_readme(id):
     if not os.path.exists('./'+id):
