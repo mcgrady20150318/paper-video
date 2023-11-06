@@ -17,7 +17,6 @@ import asyncio
 from mutagen.mp3 import MP3
 from moviepy.editor import *
 import edge_tts
-import pdf2image
 import codecs
 from langchain.vectorstores.redis import Redis
 from mutagen.mp3 import MP3
