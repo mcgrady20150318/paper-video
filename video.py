@@ -25,8 +25,7 @@ import edge_tts
 from langchain.chat_models import ChatOpenAI
 from nider.core import Font
 from nider.core import Outline
-
-from nider.models import Content
+from nider.models import Content, Header
 
 girl = "zh-CN-XiaoyiNeural"  
 boy = 'zh-CN-YunxiNeural'
@@ -118,11 +117,11 @@ def generate_radio(id):
         total_time += get_time_count(audio_file)
 
     audio_clip = concatenate_audioclips([AudioFileClip(c) for c in audio_files])
-    # audio_clip.write_audiofile('./'+id+'/'+id+'.mp3')
     image_clip = ImageSequenceClip(image_files, fps=len(image_files)/total_time)
     audio_clip = concatenate_audioclips([AudioFileClip(c) for c in audio_files])
     video_clip = image_clip.set_audio(audio_clip)
     video_clip.write_videofile('./'+id+'/'+id+'.mp4',codec='libx264')
 
-id = '2311.01815'
-generate_radio(id)
+print(os.getcwd())
+# id = '2311.01815'
+# generate_radio(id)
