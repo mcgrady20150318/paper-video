@@ -1,0 +1,26 @@
+name: Python application
+  
+on:
+  push:
+    
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+    - uses: actions/checkout@v3
+    - name: Setup Python environment
+      uses: actions/setup-python@v4
+      with:
+        python-version: '3.8' 
+
+    - name: Install Dependence
+      run: pip install requests langchain openai tiktoken redis asyncio mutagen moviepy arxiv edge_tts bilibili-api-python nider
+
+    - name: Run paper.py
+      run: python ./video.py
+
+
+    
+   
