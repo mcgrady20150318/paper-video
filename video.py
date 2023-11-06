@@ -34,6 +34,7 @@ os.environ['OPENAI_API_BASE'] = 'https://api.aiproxy.io/v1'
 
 llm = ChatOpenAI(max_tokens=10000,model_name='gpt-3.5-turbo-16k')
 embeddings = OpenAIEmbeddings()
+path = '/home/runner/work/paper-video/paper-video/'
 
 def get_paper_info(id,max_results=1):
 
@@ -63,7 +64,7 @@ def get_cover(title):
                     )
     content = Content(header=header)
     img = Image(content,fullpath=id+'/cover.png')
-    img.draw_on_image('cover.jpg')
+    img.draw_on_image(path+'cover.jpg')
     os.rename(id+'/cover.png',id+'/cover.jpg')
     os.remove(id+'/cover.png')
 
@@ -120,7 +121,7 @@ def generate_radio(id):
     audio_clip = concatenate_audioclips([AudioFileClip(c) for c in audio_files])
     video_clip = image_clip.set_audio(audio_clip)
     video_clip.write_videofile('./'+id+'/'+id+'.mp4',codec='libx264')
+    print('...done...')
 
-print(os.getcwd())
-# id = '2311.01815'
-# generate_radio(id)
+id = '2311.01815'
+generate_radio(id)
