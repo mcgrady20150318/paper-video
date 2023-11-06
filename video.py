@@ -36,6 +36,9 @@ llm = ChatOpenAI(max_tokens=10000,model_name='gpt-3.5-turbo-16k')
 embeddings = OpenAIEmbeddings()
 path = '/home/runner/work/paper-video/paper-video/'
 
+redis_url = 'redis://:S6vI7i8PWNqe59w2auRJxd4D3fXj1LG0@hkg1.clusters.zeabur.com:31126'
+r = redis.from_url(redis_url)
+
 def get_paper_info(id,max_results=1):
 
     big_slow_client = arxiv.Client(
@@ -120,7 +123,10 @@ def generate_radio(id):
     audio_clip = concatenate_audioclips([AudioFileClip(c) for c in audio_files])
     video_clip = image_clip.set_audio(audio_clip)
     video_clip.write_videofile('./'+id+'/'+id+'.mp4',codec='libx264')
-    print('...done...')
+    with open('./'+id+'/'+id+'.mp4', 'rb') as f:
+        file_content = f.read()
+    r.set(id+".mp4",file_content)
+    print('...generate video done...')
 
 id = '2311.01815'
 generate_radio(id)
