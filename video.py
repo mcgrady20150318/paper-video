@@ -58,7 +58,7 @@ def get_paper_info(id,max_results=1):
 def get_cover(title):
     header = Header(text=title,
                     text_width=50,
-                    font=Font(path=path+'Handwritten-English-2.ttf'),
+                    font=Font(path=path+'Handwritten-English-2.ttf',size=40),
                     align='center',
                     color='#000100',
                     )
