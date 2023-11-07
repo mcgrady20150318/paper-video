@@ -19,7 +19,7 @@ jobs:
         python-version: '3.8' 
 
     - name: Install Dependence
-      run: pip install requests langchain openai tiktoken redis asyncio mutagen moviepy arxiv edge_tts bilibili-api-python nider Pillow==9.4.0
+      run: pip install requests langchain openai==0.28.1 tiktoken redis asyncio mutagen moviepy arxiv edge_tts bilibili-api-python nider Pillow==9.4.0
 
     - name: Run video.py
       run: python ./video.py
