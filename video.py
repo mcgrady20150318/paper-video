@@ -79,7 +79,7 @@ def generate_readme(id):
         os.mkdir('./'+id+'/audio')
     title,abstract  = get_paper_info(id)
     get_cover(title)
-    prompt_template =  """现在你是Paperweekly论文电台分享主播Flash，请根据论文摘要"%s",生成一段电台播报风格的采访稿，严格按照一问一答的形式生成，角色分别是主播Flash和AI研究人员Ian，生成内容如下：""" %(abstract)
+    prompt_template =  """现在你是Paperweekly论文电台分享主播Flash，请根据论文标题"%s"和摘要"%s",生成一段电台播报风格的采访稿，严格按照一问一答的形式生成，角色分别是主播Flash和AI研究人员Ian，生成内容如下：""" %(title,abstract)
     PROMPT = PromptTemplate(template=prompt_template, input_variables=[])
     chain = LLMChain(llm=llm, prompt=PROMPT)
     output = chain.run(c='')
