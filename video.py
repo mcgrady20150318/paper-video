@@ -124,7 +124,6 @@ def generate_radio(id):
 
     audio_clip = concatenate_audioclips([AudioFileClip(c) for c in audio_files])
     image_clip = ImageSequenceClip(image_files, fps=len(image_files)/total_time)
-    audio_clip = concatenate_audioclips([AudioFileClip(c) for c in audio_files])
     audio_clip.write_audiofile('./'+id+'/'+id+'.mp3')
     with open('./'+id+'/'+id+'.mp3', 'rb') as f:
         file_content = f.read()
