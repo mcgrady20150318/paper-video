@@ -155,7 +155,7 @@ def get_today_list(day=0):
 if __name__ == '__main__':
     # ids = get_today_list()        
     # print(ids)
-    ids = ['2310.17940']
+    ids = ['2310.09753']
     for id in ids:
         r.rpush('radio_paper',id)
         try:
