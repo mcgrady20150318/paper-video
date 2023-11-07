@@ -153,9 +153,8 @@ def get_today_list(day=0):
     return arxivids
 
 if __name__ == '__main__':
-    # ids = get_today_list()        
-    # print(ids)
-    ids = ['2310.09753']
+    ids = get_today_list()        
+    print(ids)
     for id in ids:
         r.rpush('radio_paper',id)
         try:
