@@ -25,6 +25,7 @@ from langchain.chat_models import ChatOpenAI
 from nider.core import Font
 from nider.core import Outline
 from nider.models import Content, Header, Image
+from langchain.llms import OpenAI
 
 girl = "zh-CN-XiaoyiNeural"  
 boy = 'zh-CN-YunxiNeural'
@@ -34,7 +35,7 @@ os.environ['OPENAI_API_BASE'] = 'https://api.aiproxy.io/v1'
 redis_url = os.getenv('REDIS_URL')
 r = redis.from_url(redis_url)
 
-llm = ChatOpenAI(max_tokens=10000,model_name='gpt-3.5-turbo-16k')
+llm = OpenAI(max_tokens=10000,model_name='gpt-3.5-turbo-16k')
 embeddings = OpenAIEmbeddings()
 path = os.getcwd() + '/'
 
