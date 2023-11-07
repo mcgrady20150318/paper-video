@@ -29,15 +29,15 @@ from nider.models import Content, Header, Image
 girl = "zh-CN-XiaoyiNeural"  
 boy = 'zh-CN-YunxiNeural'
 
-os.environ["OPENAI_API_KEY"] = 'mk-WOb5xz6NB9NfXJM6REnzs4RGqcdYe0Q64hnbLulzPOEAXiP0'
-os.environ['OPENAI_API_BASE'] = 'https://api.aiproxy.io/v1'
+# os.environ["OPENAI_API_KEY"] = os.getenv('OPENAI_API_KEY')
+# os.environ['OPENAI_API_BASE'] = 'https://api.aiproxy.io/v1'
+# redis_url = os.getenv('REDIS_URL')
+# r = redis.from_url(redis_url)
 
-llm = ChatOpenAI(max_tokens=10000,model_name='gpt-3.5-turbo-16k')
-embeddings = OpenAIEmbeddings()
-path = '/home/runner/work/paper-video/paper-video/'
-
-redis_url = 'redis://:S6vI7i8PWNqe59w2auRJxd4D3fXj1LG0@hkg1.clusters.zeabur.com:31126'
-r = redis.from_url(redis_url)
+# llm = ChatOpenAI(max_tokens=10000,model_name='gpt-3.5-turbo-16k')
+# embeddings = OpenAIEmbeddings()
+path = os.getcwd()
+print(path)
 
 def get_paper_info(id,max_results=1):
 
@@ -69,6 +69,9 @@ def get_cover(title):
     img = Image(content,fullpath='./'+id+'/cover.png')
     img.draw_on_image(path+'cover.jpg')
     os.rename('./'+id+'/cover.png','./'+id+'/cover.jpg')
+    with open('./'+id+'/cover.jpg', 'rb') as f:
+        file_content = f.read()
+    r.set('bilibili:'+id+':radio_cover.jpg',file_content)
 
 def generate_readme(id):
     if not os.path.exists('./'+id):
@@ -98,6 +101,7 @@ def generate_radio(id):
     with open('./'+id+'/r.txt','r') as f:
         data = f.read()
     data = data.replace('：',':')
+    r.set('bilibili:'+id+':r.txt',data)
     output = data.split('\n\n')
     for idx,o in enumerate(output):
         _o = o.split(':')
@@ -121,12 +125,39 @@ def generate_radio(id):
     audio_clip = concatenate_audioclips([AudioFileClip(c) for c in audio_files])
     image_clip = ImageSequenceClip(image_files, fps=len(image_files)/total_time)
     audio_clip = concatenate_audioclips([AudioFileClip(c) for c in audio_files])
+    audio_clip.write_audiofile('./'+id+'/'+id+'.mp3')
+    with open('./'+id+'/'+id+'.mp3', 'rb') as f:
+        file_content = f.read()
+    r.set('bilibili:'+id+':radio_'+id+".mp3",file_content)
+    print('...generate radio done...')
     video_clip = image_clip.set_audio(audio_clip)
     video_clip.write_videofile('./'+id+'/'+id+'.mp4',codec='libx264')
     with open('./'+id+'/'+id+'.mp4', 'rb') as f:
         file_content = f.read()
-    r.set(id+".mp4",file_content)
+    r.set('bilibili:'+id+':radio_'+id+".mp4",file_content)
+    r.rpush('radio_cached_ids',id)
     print('...generate video done...')
 
-id = '2311.01815'
-generate_radio(id)
+def get_today_list(day=0):
+    ids = r.lrange('radio_cached_ids',0,-1)
+    ids = [id.decode("utf-8") for id in ids]
+    today = (datetime.date.today() - datetime.timedelta(day)).strftime('%Y-%m-%d')
+    url = 'https://huggingface.co/papers?date='+today
+    x = requests.get(url)
+    data = x.text
+    regex = re.compile(r'<a href="/papers/(.*?)"')
+    papers = re.findall(regex,data)
+    paperlist = list(set(papers))
+    paperlist = [paper for paper in paperlist if len(paper) == 10]
+    arxivids = [paper for paper in paperlist if paper not in ids]
+    return arxivids
+
+# if __name__ == '__main__':
+#     ids = get_today_list()        
+#     print(ids)
+#     for id in ids:
+#         r.rpush('radio_paper',id)
+#         try:
+#             generate_radio(id)
+#         except:
+#             print('exception')
