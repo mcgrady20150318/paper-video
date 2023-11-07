@@ -156,9 +156,9 @@ if __name__ == '__main__':
     # ids = get_today_list()        
     # print(ids)
     ids = ['2311.01615']
-    # for id in ids:
+    for id in ids:
     #     r.rpush('radio_paper',id)
     #     try:
-    generate_radio(id)
+        generate_radio(id)
         # except:
             # print('exception')
