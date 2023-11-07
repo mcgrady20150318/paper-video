@@ -153,12 +153,11 @@ def get_today_list(day=0):
     return arxivids
 
 if __name__ == '__main__':
-    # ids = get_today_list()        
-    # print(ids)
-    ids = ['2311.01615']
+    ids = get_today_list()        
+    print(ids)
     for id in ids:
-    #     r.rpush('radio_paper',id)
-    #     try:
-        generate_radio(id)
-        # except:
-            # print('exception')
+        r.rpush('radio_paper',id)
+        try:
+            generate_radio(id)
+        except:
+            print('exception')
