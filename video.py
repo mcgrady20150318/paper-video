@@ -29,15 +29,14 @@ from nider.models import Content, Header, Image
 girl = "zh-CN-XiaoyiNeural"  
 boy = 'zh-CN-YunxiNeural'
 
-# os.environ["OPENAI_API_KEY"] = os.getenv('OPENAI_API_KEY')
-# os.environ['OPENAI_API_BASE'] = 'https://api.aiproxy.io/v1'
-# redis_url = os.getenv('REDIS_URL')
-# r = redis.from_url(redis_url)
+os.environ["OPENAI_API_KEY"] = os.getenv('OPENAI_API_KEY')
+os.environ['OPENAI_API_BASE'] = 'https://api.aiproxy.io/v1'
+redis_url = os.getenv('REDIS_URL')
+r = redis.from_url(redis_url)
 
-# llm = ChatOpenAI(max_tokens=10000,model_name='gpt-3.5-turbo-16k')
-# embeddings = OpenAIEmbeddings()
-path = os.getcwd()
-print(path)
+llm = ChatOpenAI(max_tokens=10000,model_name='gpt-3.5-turbo-16k')
+embeddings = OpenAIEmbeddings()
+path = os.getcwd() + '/'
 
 def get_paper_info(id,max_results=1):
 
@@ -152,12 +151,13 @@ def get_today_list(day=0):
     arxivids = [paper for paper in paperlist if paper not in ids]
     return arxivids
 
-# if __name__ == '__main__':
-#     ids = get_today_list()        
-#     print(ids)
-#     for id in ids:
-#         r.rpush('radio_paper',id)
-#         try:
-#             generate_radio(id)
-#         except:
-#             print('exception')
+if __name__ == '__main__':
+    # ids = get_today_list()        
+    # print(ids)
+    ids = ['2310.11511']
+    for id in ids:
+        r.rpush('radio_paper',id)
+        try:
+            generate_radio(id)
+        except:
+            print('exception')
