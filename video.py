@@ -108,9 +108,11 @@ def generate_radio(id):
         if idx == 0:
             a = _o[0]
         if _o[0] == a:
-            asyncio.run(gen_voice(_o[1],id,idx,girl))
+            _output = "".join(_o[1:])
+            asyncio.run(gen_voice(_output,id,idx,girl))
         else:
-            asyncio.run(gen_voice(_o[1],id,idx,boy))
+            _output = "".join(_o[1:])
+            asyncio.run(gen_voice(_output,id,idx,boy))
 
     image_files = [id+'/cover.jpg'] * 10
     audios = os.listdir('./'+id+'/audio/')
