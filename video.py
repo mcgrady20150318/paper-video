@@ -92,7 +92,7 @@ async def gen_voice(text,id,idx,voice):
 
 def get_time_count(audio_file):
     audio = MP3(audio_file)
-    time_count = int(audio.info.length)
+    time_count = audio.info.length
     return time_count
 
 def generate_radio(id):
